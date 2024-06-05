@@ -1,4 +1,5 @@
 import unittest
+import datetime
 from dataclasses import dataclass
 from restaurant_day import RestaurantDay
 
@@ -44,9 +45,9 @@ class TestRestaurantDay(unittest.TestCase):
             ),
             TestCase(
                 name="no spacing",
-                restaurant_day=RestaurantDay(name="no spacing", hours="9am-10:30pm"),
+                restaurant_day=RestaurantDay(name="no spacing", hours="9pm-10:30pm"),
                 expected_name="no spacing",
-                expected_min_hour=9,
+                expected_min_hour=21,
                 expected_min_minute=0,
                 expected_max_hour=22,
                 expected_max_minute=30
@@ -70,3 +71,99 @@ class TestRestaurantDay(unittest.TestCase):
                 expected_max_minute=30
             ),
         ]
+
+        for case in testcases:
+            self.assertEqual(
+                case.expected_name,
+                case.restaurant_day.name,
+                "failed test {} name expected {}, actual {}".format(
+                    case.name,
+                    case.expected_name,
+                    case.restaurant_day.name
+                )
+            )
+            self.assertEqual(
+                case.expected_min_hour,
+                case.restaurant_day.min_hour,
+                "failed test {} min_hour expected {}, actual {}".format(
+                    case.name,
+                    case.expected_min_hour,
+                    case.restaurant_day.min_hour
+                )
+            )
+            self.assertEqual(
+                case.expected_min_minute,
+                case.restaurant_day.min_minute,
+                "failed test {} min_minute expected {}, actual {}".format(
+                    case.name,
+                    case.expected_min_minute,
+                    case.restaurant_day.min_minute
+                )
+            )
+            self.assertEqual(
+                case.expected_max_hour,
+                case.restaurant_day.max_hour,
+                "failed test {} max_hour expected {}, actual {}".format(
+                    case.name,
+                    case.expected_max_hour,
+                    case.restaurant_day.max_hour
+                )
+            )
+            self.assertEqual(
+                case.expected_max_minute,
+                case.restaurant_day.max_minute,
+                "failed test {} max_minute expected {}, actual {}".format(
+                    case.name,
+                    case.expected_max_minute,
+                    case.restaurant_day.max_minute
+                )
+            )
+
+    def test_contains(self):
+        restaurant_day = RestaurantDay(name="simple", hours="9 am - 10 pm")
+        @dataclass
+        class TestCase:
+            name: str
+            input: datetime.time
+            expected: bool 
+        
+        testcases = [
+            TestCase(
+                name="way past",
+                input=datetime.datetime.fromisoformat("2024-06-04T23:37:23.988414"),
+                expected=False
+            ),
+            TestCase(
+                name="minute past",
+                input=datetime.datetime.fromisoformat("2024-06-04T22:01:00.000"),
+                expected=False
+            ),
+            TestCase(
+                name="second past",
+                input=datetime.datetime.fromisoformat("2024-06-04T22:00:01.000"),
+                expected=False
+            ),
+            TestCase(
+                name="millisecond past",
+                input=datetime.datetime.fromisoformat("2024-06-04T22:00:00.001"),
+                expected=False
+            ),
+            TestCase(
+                name="millisecond past",
+                input=datetime.datetime.fromisoformat("2024-06-04T12:00:00.001"),
+                expected=True
+            ),
+        ]
+
+        for case in testcases:
+            actual = restaurant_day.contains(case.input)
+            self.assertEqual(
+                case.expected,
+                actual,
+                "failed test {} expected {}, actual {}".format(
+                    case.name,
+                    case.expected,
+                    actual
+                )
+            )
+

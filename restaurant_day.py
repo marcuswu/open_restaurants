@@ -9,7 +9,6 @@ class RestaurantDay:
     max_minute = 0
     def __init__(self, name:str, hours:str) -> None:
         self.name = name
-        # todo: parse hours
         time_range = hours.split('-')
         numbers_only = re.compile("^[0-9]+")
         min_time_fields = time_range[0].strip().split(':')
@@ -34,8 +33,13 @@ class RestaurantDay:
             self.max_hour += 12
     
     def contains(self, check_time:time) -> bool:
-        print("checking if restaurant ", self.name, " is open at ", check_time.hour,":",check_time.minute)
-        print("restaurant is from", self.min_hour, " to ", self.max_hour)
-        return (check_time.hour > self.min_hour and check_time.hour < self.max_hour) \
-            or (check_time.hour == self.min_hour) \
-            or (check_time.hour == self.max_hour and check_time.minute == 0)
+        result = True
+        if check_time.hour < self.min_hour or check_time.hour > self.max_hour:
+            result = False
+        if check_time.hour == self.max_hour and (
+                check_time.minute > 0 \
+                or check_time.second > 0 \
+                or check_time.microsecond > 0
+            ):
+            result = False
+        return result
