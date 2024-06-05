@@ -5,12 +5,10 @@ from weekday import Weekday
 from utils import split_hours, days_for_range
 
 class Restaurants:
-    dow = {}
-    def __init__(self, restaurant_data) -> None:
-        csv_file = open(restaurant_data)
-        csv_reader = csv.reader(csv_file)
+    def __init__(self, restaurant_iterable) -> None:
+        self.dow = {}
         read_columns = False
-        for row in csv_reader:
+        for row in restaurant_iterable:
             if not read_columns:
                 read_columns = True
                 continue

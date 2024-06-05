@@ -37,12 +37,29 @@ class RestaurantDay:
     
     def contains(self, check_time:time) -> bool:
         result = True
-        if check_time.hour < self.min_hour or check_time.hour > self.max_hour:
+        if check_time.hour < self.min_hour:
             result = False
-        if check_time.hour == self.max_hour and (
-                check_time.minute > 0 \
-                or check_time.second > 0 \
-                or check_time.microsecond > 0
+        if check_time.hour == self.min_hour and check_time.minute < self.min_minute:
+            result = False
+        if check_time.hour > self.max_hour:
+            result = False
+        if check_time.hour == self.max_hour and \
+                check_time.minute > self.max_minute:
+            result = False
+        if check_time.hour == self.max_hour \
+            and check_time.minute == self.max_minute \
+            and ( 
+                check_time.second > 0 \
+                or check_time.microsecond > 0 \
             ):
             result = False
         return result
+
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, RestaurantDay):
+            return NotImplemented
+        return self.name == value.name \
+            and self.min_hour == value.min_hour \
+            and self.min_minute == value.min_minute \
+            and self.max_hour == value.max_hour \
+            and self.max_minute == value.max_minute

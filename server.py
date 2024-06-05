@@ -1,4 +1,5 @@
 import json
+import csv
 from datetime import datetime
 from urllib.parse import urlparse, parse_qs
 from http.server import SimpleHTTPRequestHandler, HTTPServer
@@ -34,6 +35,9 @@ def restaurant_handler(restaurants):
             #     self.send_response(400, e)
     return RestaurantRequestHandler
         
-restaurants = Restaurants('restaurants.csv')
-server = HTTPServer(('localhost', 8000), restaurant_handler(restaurants))
+
+csv_file = open('restaurants.csv')
+csv_reader = csv.reader(csv_file)
+restaurants = Restaurants(csv_reader)
+server = HTTPServer(('localhost', 8000), restaurant_handler(restaurants=restaurants))
 server.serve_forever()
