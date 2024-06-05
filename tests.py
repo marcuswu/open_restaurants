@@ -1,6 +1,6 @@
 import unittest
 import coverage
-from test_restaurant_day import TestRestaurantDay
+from tests.test_restaurant_day import TestRestaurantDay
 
 if __name__ == '__main__':
     cov = coverage.Coverage()
