@@ -24,6 +24,5 @@ class Restaurants:
                     self.dow[day].append(RestaurantDay(restaurant_name, hours_range))
     
     def open_at(self, day_of_week, check_time:time) -> list[str]:
-        print("passed day of week: ", Weekday(day_of_week))
         restaurants = self.dow[Weekday(day_of_week)]
         return list(map(lambda rest: rest.name ,list(filter(lambda rest: rest.contains(check_time), restaurants))))

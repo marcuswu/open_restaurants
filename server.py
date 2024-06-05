@@ -11,20 +11,16 @@ def restaurant_handler(restaurants):
             # try:
                 params = parse_qs(urlparse(self.path).query)
                 dateParam = params.get('date')[0]
-                print(dateParam)
+                print("Received request for date ", dateParam)
                 searchDatetime = datetime.fromisoformat(dateParam)
                 searchDay = searchDatetime.weekday()
-                print(searchDay)
+                print("Looking up day of week ", searchDay)
                 results = restaurants.open_at(searchDay, searchDatetime.time())
-                print(results)
+                print("Restaurants open for date ", dateParam, ": ", results)
                 self.send_response(200)
-                print("1")
                 self.send_header("Content-Type", "application/json")
-                print("2")
                 self.end_headers()
-                print("3", results)
                 self.wfile.write(json.dumps(results).encode("utf-8"))
-                print("4")
             # except ValueError as e:
             #     # bad request -- invalid date
             #     print("Invalid date", e)

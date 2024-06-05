@@ -56,7 +56,6 @@ def split_hours(hours:str) -> list[tuple[str, str]]:
     # We now have a list of the day ranges -- something like:
     #  ['Mon-Thu, Sun 11:30 am - 10 pm', 'Fri 11 am - 11 pm', 'Sat 7 am - 12 pm']
     for rangeset in pattern.findall(hours):
-        print(rangeset)
         # Split the day and time range
         m = split_pattern.search(rangeset)
         res.append((m.group('day_range').strip(), m.group('time_range').strip()))
