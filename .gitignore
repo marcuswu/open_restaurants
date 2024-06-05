@@ -1,0 +1,5 @@
+# Byte-compiled / optimized / DLL files
+# There's a lot more we could add here, but for this small project this is all we need
+__pycache__/
+*.py[cod]
+*$py.class
