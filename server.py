@@ -8,9 +8,9 @@ from restaurants import Restaurants
 def restaurant_handler(restaurants):
     class RestaurantRequestHandler(SimpleHTTPRequestHandler):
         def do_GET(self):
-            # try:
+            try:
                 params = parse_qs(urlparse(self.path).query)
-                dateParam = params.get('date')[0]
+                dateParam = datetime.now().isoformat() if params.get('date') == None else params.get('date')[0]
                 print("Received request for date ", dateParam)
                 searchDatetime = datetime.fromisoformat(dateParam)
                 searchDay = searchDatetime.weekday()
@@ -21,14 +21,16 @@ def restaurant_handler(restaurants):
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps(results).encode("utf-8"))
-            # except ValueError as e:
-            #     # bad request -- invalid date
-            #     print("Invalid date", e)
-            #     self.send_response(400, "Invalid 'date' parameter. The 'date' field must be a valid ISO-8601 datetime value")
-            # except Exception as e:
-            #     # return bad request
-            #     print("Unknown exception", e)
-            #     self.send_response(400, e)
+            except ValueError as e:
+                # bad request -- invalid date
+                print("Invalid date", e)
+                self.send_response(400, "Invalid 'date' parameter. The 'date' field must be a valid ISO-8601 datetime value")
+                self.end_headers()
+            except Exception as e:
+                # return bad request
+                print("Unknown exception", e)
+                self.send_response(500, "Unknown server error")
+                self.end_headers()
     return RestaurantRequestHandler
         
 
