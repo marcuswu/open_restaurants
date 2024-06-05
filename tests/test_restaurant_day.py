@@ -26,6 +26,15 @@ class TestRestaurantDay(unittest.TestCase):
                 expected_max_minute=0
             ),
             TestCase(
+                name="max hour in next day",
+                restaurant_day=RestaurantDay(name="simple", hours="9 am - 2 am"),
+                expected_name="simple",
+                expected_min_hour=9,
+                expected_min_minute=0,
+                expected_max_hour=26,
+                expected_max_minute=0
+            ),
+            TestCase(
                 name="min with minutes",
                 restaurant_day=RestaurantDay(name="simple2", hours="9:20 am - 10 pm"),
                 expected_name="simple2",

@@ -1,6 +1,7 @@
 import re
 from weekday import Weekday
 
+# Convert a weekday range into a list of weekdays
 def days_for_range(weekday_range:str) -> list[Weekday]:
     ret = []
     for day in weekday_range.split(','):
@@ -15,18 +16,21 @@ def days_for_range(weekday_range:str) -> list[Weekday]:
             end = Weekday.of(day_range[1].strip())
             if start == None or end == None:
                 continue
-            for i in range(start.value, end.value+1):
-                ret.append(Weekday(i))
+            end_val = end.value
+            if end_val < start.value:
+                end_val += 7
+            for i in range(start.value, end_val+1):
+                ret.append(Weekday(i%7))
     return ret
 
-
+# Split hours into a list of tuples of weekday range and hour range
 def split_hours(hours:str) -> list[tuple[str, str]]:
     res = []
     # Build up regular expression to capture day and hour ranges
     # Separated out to be easier to write and understand, but also for reuse
     sun_regex = "[Ss]u(?:n|nday)?"
     mon_regex = "[Mm](?:on|onday)?"
-    thu_regex = "[Tt]h(?:ur|urs|ursday)?"
+    thu_regex = "[Tt]h(?:u|ur|urs|ursday)?"
     tue_regex = "[Tt]u(?:e|es|esday)?"
     wed_regex = "[Ww](?:ed|ednesday)?"
     fri_regex = "[Ff](?:r|ri|riday)?"
@@ -55,6 +59,6 @@ def split_hours(hours:str) -> list[tuple[str, str]]:
         print(rangeset)
         # Split the day and time range
         m = split_pattern.search(rangeset)
-        res.append((m.group('day_range'), m.group('time_range')))
+        res.append((m.group('day_range').strip(), m.group('time_range').strip()))
     return res
 

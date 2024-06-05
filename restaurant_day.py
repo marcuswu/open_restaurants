@@ -31,6 +31,9 @@ class RestaurantDay:
         if (is_pm and self.max_hour < 12) \
             or is_am and self.max_hour == 12:
             self.max_hour += 12
+
+        if self.max_hour < self.min_hour:
+            self.max_hour += 24
     
     def contains(self, check_time:time) -> bool:
         result = True
