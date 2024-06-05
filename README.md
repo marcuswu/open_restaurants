@@ -2,8 +2,18 @@
 
 A simple restaurant API that uses weekday time ranges to return a list of open restaurants for a specific date and time
 
+## Testing ##
+The only dependencies in this project are for testing coverage. I could not find a code coverage solution that was in the standard library. For this reason, pip install is only required when testing.
+`pip install -r requirements.txt`
+
+`python tests.py`
+
 ## Running ##
-Placeholder -- for now it's just `python restaurants.py`
+
+### Locally ###
+`python restaurants.py`
+
+### In Docker ###
 TODO: Add Docker instructions
 
 ## Usage ##
