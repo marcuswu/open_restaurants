@@ -8,7 +8,16 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # COPY requirements.txt .
 # RUN 
 
-# Run the application:
+# copy the application
 COPY *.py .
 COPY restaurants.csv .
-CMD ["python", "restaurants.py"]
+
+# Expose the server port
+EXPOSE 8000
+
+# Container safety -- don't run as root
+RUN useradd app
+USER app
+
+# Run the application:
+CMD ["python", "server.py"]

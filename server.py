@@ -37,5 +37,5 @@ def restaurant_handler(restaurants):
 csv_file = open('restaurants.csv')
 csv_reader = csv.reader(csv_file)
 restaurants = Restaurants(csv_reader)
-server = HTTPServer(('localhost', 8000), restaurant_handler(restaurants=restaurants))
+server = HTTPServer(('0.0.0.0', 8000), restaurant_handler(restaurants=restaurants))
 server.serve_forever()
