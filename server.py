@@ -1,6 +1,7 @@
 import json
 import csv
 from datetime import datetime
+from threading import Thread
 from urllib.parse import urlparse, parse_qs
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from restaurants import Restaurants
@@ -38,4 +39,4 @@ csv_file = open('restaurants.csv')
 csv_reader = csv.reader(csv_file)
 restaurants = Restaurants(csv_reader)
 server = HTTPServer(('0.0.0.0', 8000), restaurant_handler(restaurants=restaurants))
-server.serve_forever()
+Thread(target=server.serve_forever, daemon=False).start()
