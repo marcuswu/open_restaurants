@@ -10,18 +10,19 @@ class Weekday(Enum):
     SATURDAY = 6
     @classmethod
     def of(cls, day:str):
-        if day.startswith("Su"):
+        upper_day = day.upper()
+        if upper_day.startswith("SU"):
             return Weekday.SUNDAY
-        if day.startswith("M"):
+        if upper_day.startswith("M"):
             return Weekday.MONDAY
-        if day.startswith("Th"):
+        if upper_day.startswith("TH"):
             return Weekday.THURSDAY
-        if day.startswith("T"):
+        if upper_day.startswith("T"):
             return Weekday.TUESDAY
-        if day.startswith("W"):
+        if upper_day.startswith("W"):
             return Weekday.WEDNESDAY
-        if day.startswith("F"):
+        if upper_day.startswith("F"):
             return Weekday.FRIDAY
-        if day.startswith("Sa"):
+        if upper_day.startswith("SA"):
             return Weekday.SATURDAY
         return None
