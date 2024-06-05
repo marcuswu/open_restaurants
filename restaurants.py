@@ -12,7 +12,6 @@ class Restaurants:
             if not read_columns:
                 read_columns = True
                 continue
-            print(row)
             restaurant_name = row[0]
             # Parse DoW, hours tuples
             hours = split_hours(row[1])
